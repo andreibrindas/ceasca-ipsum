@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="ro">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Ceașcă Ipsum Generator</title>
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f4f4f4;
+        color: #333;
+        text-align: center;
+      }
+      .container {
+        margin: 50px auto;
+        max-width: 800px;
+        background: white;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+      }
+      h1 {
+        color: #00509e;
+      }
+      button {
+        background: #00509e;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        font-size: 16px;
+        border-radius: 5px;
+        cursor: pointer;
+      }
+      button:hover {
+        background: #003f7f;
+      }
+      textarea {
+        width: 100%;
+        height: 200px;
+        margin-top: 20px;
+        font-size: 14px;
+        padding: 10px;
+        border-radius: 5px;
+        border: 1px solid #ddd;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Ceașcă Ipsum Generator</h1>
+      <p>Generează text amuzant inspirat din stilul lui Nicolae Ceaușescu!</p>
+      <label for="paragraphs">Număr de paragrafe:</label>
+      <input type="number" id="paragraphs" value="1" min="1" max="10" />
+      <button onclick="generateText()">Generează</button>
+      <textarea id="output" readonly></textarea>
+    </div>
+
+    <script>
+      const replici = [
+        "Tovarăși dezvoltatori, să codăm un viitor luminos, unde fiecare linie de cod este o cărămidă la fundamentul progresului tehnologic!",
+        "Nicio eroare nu va opri poporul programator de la atingerea scopurilor sale glorioase!",
+        "Să facem un refactor istoric, prin care aplicațiile noastre vor deveni mai rapide, mai eficiente, mai revoluționare!",
+        "Codul sursă trebuie să fie ca o poezie pentru poporul muncitor: clar, inspirat și fără bug-uri!",
+        "Compilarea este o activitate patriotică, iar succesul ei depinde de unitatea tuturor fișierelor de proiect!",
+        "Fiecare commit al vostru reprezintă un pas măreț către victoria aplicației finale!",
+        "Memoria RAM a patriei să nu fie risipită! Să optimizăm totul, tovarăși!",
+        "Tovarăși, avem un singur backlog, dar o întreagă galaxie de posibilități!",
+        "Să nu scriem cod duplicat! Redundanța este dușmanul progresului digital!",
+        "Un bug detectat și eliminat este o victorie pentru întreaga clasă programatoare!",
+        "Tovarăși dezvoltatori, nimic nu este imposibil cu un debugger bine calibrat și o atitudine revoluționară!",
+        "Funcțiile recursiv scrise să fie scurte, dar cu un impact profund asupra aplicației finale!",
+        "Tovarășii front-end și back-end să colaboreze în deplină armonie pentru gloria aplicației noastre unitare!",
+        "Să nu mai auzim de probleme de performanță, tovarăși! Să optimizăm codul cu zel patriotic!",
+        "Proiectele agile sunt calea spre victorie! Sprint după sprint vom construi o lume mai bună!",
+        "Commit-urile trebuie să fie documentate! Fiecare mesaj al vostru este istoria progresului nostru digital!",
+        "Să nu existe niciun pull request fără o revizuire temeinică! Codul de calitate este o datorie revoluționară!",
+        "Testele unitare sunt baricadele noastre împotriva regresiilor în codul nostru revoluționar!",
+        "Oricine își asumă task-uri, să le ducă la bun sfârșit cu onoare și responsabilitate!",
+        "Tovarăși, Git merge-ul este o artă și trebuie tratat cu respectul cuvenit!",
+        "Framework-ul nu face minuni, tovarăși! Minunile sunt realizate de programatorii devotați!",
+        "Fiecare pixel al interfeței noastre este o picătură din sudoarea poporului nostru muncitor!",
+        "Să nu renunțăm niciodată la comentarii clare în cod! Viitorul ne va judeca după claritatea lor!",
+        "Codul spaghetti este o piedică în calea progresului, tovarăși! Să-l eliminăm fără milă!",
+        "Documentația să fie scrisă în stil revoluționar, clară și accesibilă tuturor!",
+        "Să nu uităm: fiecare linie de cod este o datorie față de cei care vin după noi!",
+        "Tovarăși QA, bug-urile nu vor scăpa neobservate sub ochii vigilenți ai echipei noastre!",
+        "O funcționalitate livrată fără bug-uri este un omagiu adus muncii noastre devotate!",
+        "Să codăm pentru gloria progresului digital internațional!",
+        "Nimic pentru noi, totul pentru stabilitate și scalabilitate!",
+        "Tovarăși, să transformăm fiecare IDE într-un instrument al progresului nostru național!",
+        "Debugging-ul este calea spre iluminare tehnologică!",
+        "Când serverele sunt stabile, patria digitală prosperă!",
+        "Tovarăși, nu există deadline-uri imposibile, ci doar motivație insuficientă!",
+        "Să păstrăm commit-urile curate, ca un exemplu pentru generațiile viitoare de programatori!",
+        "Codul nostru nu are bug-uri, doar viitorul le va înțelege mai bine!",
+        "Tovarăși programatori, să transformăm fiecare sprint într-un maraton de victorii!",
+        "Nu doar scriem cod, tovarăși, ci construim un viitor mai bun pentru toată umanitatea!",
+        "Să nu uităm, fiecare branch aduce cu sine o responsabilitate istorică!",
+        "Orice conflict de merge trebuie rezolvat cu înțelepciune și unitate de scop!",
+        "Un algoritm bine optimizat este mai valoros decât aurul digital al vremurilor noastre!",
+        "Să refacem aplicația pentru popor, dar să nu o rescriem inutil, tovarăși!",
+        "Tovarăși, fiecare endpoint de API este o punte de legătură între noi și viitorul digital al omenirii!",
+        "Codul open-source este un dar pentru întreaga umanitate muncitoare!",
+        "Tovarăși, să nu lăsăm memoria patriei să fie copleșită de obiecte inutile!",
+        "Tovarăși devotați, fiecare CLI tool pe care îl creăm este un pas către eliberarea digitală a proletariatului!",
+        "Un deployment fără erori este o sărbătoare națională pentru programatori!",
+        "Tovarăși programatori, să ducem integrarea continuă la rang de artă revoluționară!",
+        "Să creăm aplicații pentru oameni, nu doar pentru mașini!",
+        "Fiecare task completat este o victorie în războiul nostru împotriva procrastinării!",
+        "Tovarăși, să nu renunțăm niciodată la ideea unui cod clar, logic și bine structurat!",
+        "Egalitatea între front-end și back-end este o condiție esențială pentru progresul nostru tehnologic!",
+        "Poporul muncitor cere aplicații fără lag! Să le oferim fără întârziere!",
+        "Tovarăși, un commit slab afectează întreaga structură a aplicației noastre glorioase!",
+        "Fiecare repo public este o contribuție măreață la progresul digital internațional!",
+        "Să nu ignorăm niciodată un warning, tovarăși! Este o datorie sacră să investigăm totul!",
+        "Tovarăși, să păstrăm log-urile curate și clare, spre gloria debugging-ului viitor!",
+        "Un cod bine indentat este semnul clar al disciplinei programatorului revoluționar!",
+        "Tovarăși, să lansăm aplicații care nu doar că funcționează, dar sunt și frumoase precum idealurile noastre!",
+        "Baza de date este temelia oricărei aplicații, să o tratăm cu respectul cuvenit!",
+        "Să nu existe niciun user story fără o soluție măreață, tovarăși!",
+        "Oricine blamează cache-ul pentru problemele aplicației să fie trimis la re-educare tehnologică!",
+        "Tovarăși, să înțelegem că adevăratul progres vine prin munca în echipă, nu prin eroi singulari ai tastaturii!",
+        "Codul nostru trebuie să inspire, nu doar să funcționeze!",
+        "Să ne asigurăm că fiecare linie de cod contribuie la gloria aplicației finale!",
+        "Niciun bug nu poate sta în calea voinței unui programator hotărât!",
+        "Să codăm pentru un mâine mai luminos și un cod mai stabil!",
+        "Tovarăși, fiecare IDE este un câmp de luptă pentru progresul tehnologic!",
+        "Un algoritm bine gândit este o operă de artă revoluționară!",
+        "Tovarăși, să construim aplicații care să reziste testului timpului!",
+        "Să nu uităm niciodată: fiecare linie de cod este o poveste a muncii noastre eroice!",
+        "Unitatea echipei de dezvoltare este mai puternică decât orice framework modern!",
+        "Să ne bazăm pe principiile SOLID, care ne vor conduce către glorie!",
+        "Tovarăși, să folosim inteligența artificială pentru a ușura viața poporului muncitor!",
+        "Un backlog bine organizat este cheia succesului nostru!",
+        "Tovarăși, să lansăm versiuni stabile și fără regrete!",
+        "Să nu ne lăsăm învinși de deadline-uri! Sunt doar obstacole temporare în calea progresului nostru!",
+        "Tovarăși, fiecare linie de cod scrisă cu pasiune este o contribuție la patrimoniul tehnologic mondial!",
+        "Tovarăși, să optimizăm resursele și să oferim aplicații rapide și scalabile pentru toți!",
+        "Să lansăm aplicații care să fie faruri călăuzitoare pentru viitorul digital al omenirii!",
+        "Tovarăși, să nu ne lăsăm înfrânți de monopolurile imperialiste ale companiilor capitaliste precum Facebook! Vom crea platforme sociale care să slujească poporului, nu profiturilor străine!",
+        "Amazonul capitalist vrea să acapareze toate piețele, dar noi vom demonstra că poporul muncitor poate dezvolta soluții de comerț digital mai juste și mai accesibile!",
+        "Să nu ne plecăm în fața gigantului capitalist Apple! Vom crea tehnologii care să fie disponibile tuturor, nu doar celor care își permit să plătească pentru un logo!",
+        "Netflix-ul imperialist propagă cultura decadentă prin streaming! Să dezvoltăm platforme care să promoveze valorile naționale și tradițiile sănătoase!",
+        "Google, farul capitalismului, vrea să controleze informația! Noi vom lupta pentru o lume în care căutările servesc adevărului și progresului, nu profitului corporatist!",
+        "Microsoft, cu monopolurile sale tehnologice, caută să îngenuncheze utilizatorul muncitor! Să promovăm alternative open-source care să elibereze proletariatul digital!",
+        "Tovarăși, să nu uităm: FAANG nu reprezintă progresul, ci exploatarea globală a resurselor umane și intelectuale!",
+        "Facebook-ul imperialist transformă intimitatea în marfă! Să creăm rețele sociale în care oamenii să fie liberi și respectați!",
+        "Amazonul exploatează muncitorii și algoritmii pentru profit! Vom dezvolta soluții care să pună oamenii pe primul loc, nu acțiunile la bursă!",
+        "Apple vinde luxul ca progres! Noi vom demonstra că adevăratul progres este accesibilitatea pentru toți cetățenii digitali!",
+        "Netflix-ul capitalist dorește să monopolizeze divertismentul global! Să sprijinim conținut creat de popor, pentru popor!",
+        "Google-ul capitalist vrea să indexeze și să controleze întreaga lume! Să creăm motoare de căutare care să servească egalitatea și transparența!",
+        "Microsoft-ul capitalist construiește imperii în cloud, dar noi vom oferi soluții democratice pentru fiecare programator muncitor!",
+        "FAANG încearcă să ne înrobească prin software! Vom rezista prin crearea unei patrii digitale independente și suverane!",
+        "Facebook-ul capitalist adună datele poporului pentru a le vinde celor bogați! Să apărăm intimitatea digitală a muncitorilor!",
+        "Amazon se hrănește din munca proletariatului! Să construim piețe digitale care respectă efortul fiecărui comerciant!",
+        "Apple crede că luxul înseamnă inovație! Noi spunem că adevărata inovație este accesibilitatea pentru toată lumea!",
+        "Netflix, simbol al distracției capitaliste, vrea să dicteze ce vedem și ce gândim! Să producem conținut educativ și revoluționar!",
+        "Google ne servește reclame sub pretextul informației! Să construim o rețea globală care servește adevărul, nu interesele corporatiste!",
+        "Microsoft-ul imperialist dictează standardele tehnologiei! Noi vom crea standarde libere pentru o lume digitală echitabilă!",
+        "Tovarăși, FAANG este simbolul exploatării capitaliste globale! Să construim o alternativă digitală pentru progresul colectiv!",
+        "Să nu ne lăsăm seduși de strălucirea artificială a gigantului Facebook! Vom construi platforme care servesc nevoile reale ale poporului!",
+        "Amazon, simbol al consumismului capitalist, distruge micii comercianți! Vom sprijini piețe digitale echitabile și democratice!",
+        "Apple impune taxe revoluționare asupra creativității! Să dovedim că inovația nu trebuie să coste o avere!",
+        "Netflix exploatează timpul proletariatului pentru divertisment superficial! Să promovăm educația digitală și cultura autentică!",
+        "Google ne urmărește fiecare mișcare în numele 'personalizării'! Să creăm soluții care respectă libertatea digitală a fiecăruia!",
+        "Microsoft profită de fiecare licență vândută! Să dezvoltăm soluții libere și deschise pentru toată lumea!",
+        "Tovarăși, să ne unim împotriva hegemoniei digitale FAANG! Viitorul aparține poporului muncitor, nu capitaliștilor lacomi!",
+        "Facebook exploatează rețelele sociale ca să controleze opiniile! Vom crea platforme libere unde poporul poate comunica fără frică!",
+        "Amazon își impune voința prin algoritmi tiranici! Să dezvoltăm soluții care să sprijine micii antreprenori digitali!",
+        "Apple își taxează utilizatorii pentru fiecare inovație! Noi vom construi tehnologii pentru toți, nu doar pentru elita capitalistă!",
+        "Netflix profită de cultura pop pentru a-și îngroșa buzunarele! Să sprijinim conținut creat cu suflet pentru muncitorii digitali!",
+        "Google indexează lumea pentru profituri astronomice! Să construim soluții care să fie transparente și în slujba tuturor!",
+        "Microsoft creează dependență de soluțiile lor corporatiste! Să eliberăm proletariatul digital prin open-source!",
+        "Tovarăși, FAANG simbolizează dictatura digitală globală! Noi vom ridica alternativa proletară!",
+        "Facebook înrobește utilizatorii prin notificări fără sfârșit! Să eliberăm poporul de tirania social media!",
+        "Amazon se folosește de automatizare pentru a elimina omul! Noi vom pune tehnologia în slujba omenirii, nu invers!",
+        "Apple suprataxează progresul! Vom demonstra că adevărata inovație nu are preț!",
+        "Netflix monopolizează imaginația globală! Vom crea platforme care inspiră muncitorii să viseze măreț!",
+        "Google transformă informația într-o armă capitalistă! Noi vom lupta pentru transparență digitală absolută!",
+        "Microsoft construiește ziduri digitale în jurul utilizatorilor săi! Noi vom construi poduri pentru progresul colectiv!",
+        "Tovarăși programatori, fiecare linie de cod scrisă este un pas înainte spre gloria patriei noastre socialiste!",
+        "Patria socialistă are nevoie de aplicații rapide și eficiente! Să codăm cu devotament și disciplină revoluționară!",
+        "Să ne asigurăm că fiecare algoritm pe care îl scriem slujește progresului României socialiste!",
+        "Codăm nu doar pentru noi, ci pentru viitorul luminos al poporului român muncitor!",
+        "Tovarăși, o aplicație bine scrisă este o contribuție măreață la consolidarea socialismului în patria noastră!",
+        "Să punem toate resursele digitale ale patriei noastre în slujba construcției societății comuniste!",
+        "Fiecare bug rezolvat este o victorie împotriva imperialismului digital capitalist!",
+        "Să nu uităm, tovarăși: fiecare byte de memorie utilizată eficient este o dovadă a spiritului nostru patriotic!",
+        "România socialistă are nevoie de aplicații stabile și eficiente! Să le creăm cu pasiune revoluționară!",
+        "Codăm pentru popor, pentru socialism, pentru un viitor digital glorios al României!",
+        "Tovarăși, să transformăm fiecare proiect software într-o operă care să dăinuie în gloria socialismului!",
+        "Tehnologia este un mijloc al progresului revoluționar! Să o folosim pentru a aduce România în fruntea progresului digital global!",
+        "Să nu uităm niciodată: România socialistă are nevoie de programatori devotați cauzei comuniste!",
+        "Codul nostru să fie un exemplu de disciplină și rigoare, spre gloria patriei muncitoare!",
+        "Tovarăși, să dezvoltăm soluții software care să reflecte valorile socialismului: egalitate, solidaritate, eficiență!",
+        "O aplicație bine optimizată este un omagiu adus muncitorilor patriei noastre!",
+        "Să programăm pentru o Românie mai puternică, mai avansată, mai socialistă!",
+        "Tovarăși, fiecare linie de cod este o expresie a iubirii noastre pentru România socialistă!",
+        "Gloria patriei noastre depinde de dedicarea fiecărui programator la construcția digitală revoluționară!",
+        "Să nu scriem cod doar pentru azi, ci pentru un viitor comunist strălucit!",
+        "Tovarăși, să dezvoltăm aplicații care să fie în slujba poporului român, nu a corporațiilor imperialiste!",
+        "România socialistă are nevoie de programe care să reflecte forța și determinarea poporului muncitor!",
+        "Un server stabil este simbolul stabilității socialismului în era digitală!",
+        "Să facem ca fiecare funcționalitate software să fie o piatră de temelie a progresului nostru revoluționar!",
+        "Codăm pentru a demonstra lumii întregi că România socialistă poate inova cu măiestrie și pasiune!",
+        "Tovarăși, să nu uităm niciodată că fiecare aplicație creată este un serviciu adus socialismului românesc!",
+        "România socialistă așteaptă de la voi, programatori, să transformați viziunea digitală într-o realitate glorioasă!",
+        "Tovarăși programatori, să lansăm aplicații care să fie o mândrie pentru întreg poporul român muncitor!",
+        "Gloria patriei noastre depinde de dedicația fiecărui dezvoltator la construcția viitorului digital socialist!",
+        "Să folosim fiecare IDE pentru a construi un viitor mai bun, mai socialist, mai glorios pentru România!",
+        "Patria noastră socialistă are nevoie de soluții software care să unească poporul și să sprijine progresul digital!",
+        "Tovarăși, să optimizăm fiecare algoritm pentru a reflecta eficiența și spiritul revoluționar al poporului român!",
+        "Fiecare linie de cod scrisă cu pasiune este un omagiu adus socialismului românesc!",
+        "Să nu uităm, tovarăși, că România socialistă este farul nostru călăuzitor în era digitală!",
+        "Un cod bine scris este o contribuție vitală la construcția unei societăți socialiste puternice și independente!",
+        "Să codăm cu zel patriotic, spre gloria socialismului românesc și a viitorului său digital!",
+        "România socialistă are nevoie de aplicații care să sprijine nevoile poporului, nu ale capitalului străin!",
+        "Tovarăși, să ducem România în fruntea progresului digital global prin aplicații revoluționare și inovatoare!",
+        "Să scriem cod care să reflecte valorile socialismului: egalitate, solidaritate și progres pentru toți!",
+        "Tovarăși, să transformăm serverele patriei într-un bastion al progresului tehnologic socialist!",
+        "România socialistă așteaptă de la voi aplicații care să fie mândria noastră digitală națională!",
+        "Fiecare refactor al vostru este o contribuție la consolidarea socialismului românesc digital!",
+        "Tovarăși, să programăm pentru un viitor luminos, în care România socialistă va străluci în universul tehnologic global!",
+      ];
+
+      function generateText() {
+        const paragraphs = document.getElementById("paragraphs").value;
+        const output = document.getElementById("output");
+        let text = "";
+
+        for (let i = 0; i < paragraphs; i++) {
+          const numSentences = Math.floor(Math.random() * 5) + 3; // Fiecare paragraf va avea între 3 și 7 propoziții
+          const shuffled = replici
+            .sort(() => 0.5 - Math.random())
+            .slice(0, numSentences); // Selectăm propoziții aleatoriu
+          text += shuffled.join(" ") + "\n\n"; // Concatenează propozițiile pentru paragraf
+        }
+
+        output.value = text.trim();
+      }
+    </script>
+  </body>
+</html>
